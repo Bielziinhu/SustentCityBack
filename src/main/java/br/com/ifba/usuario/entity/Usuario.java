@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "usuarios")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class Usuario extends PersistenceEntity implements Serializable {
 
     @Column(name = "nome", nullable = false)

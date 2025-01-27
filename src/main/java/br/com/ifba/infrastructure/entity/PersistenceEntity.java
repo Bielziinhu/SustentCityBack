@@ -9,8 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @MappedSuperclass
-@Getter
-@Setter
+@Data
 public class PersistenceEntity {
 
     @Id

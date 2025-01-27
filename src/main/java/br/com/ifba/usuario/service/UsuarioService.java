@@ -11,17 +11,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class UsuarioService implements UsuarioIService{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
     private final UsuarioRepository usuarioRepository;
-
-    //Adicionado por enquanto. Será removido nas proximas modificações
-    public UsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
 
     public List<Usuario> findAll() {
         LOGGER.info("Buscando todos os usuários");
@@ -43,18 +38,13 @@ public class UsuarioService implements UsuarioIService{
         usuarioRepository.deleteById(id);
     }
 
-    @Override
-    public Usuario update(Long id, Usuario usuario){
-        return null;
-    }
-
-    /*public Usuario update(Long id, Usuario usuario) {
+    public Usuario update(Long id, Usuario usuario) {
         LOGGER.info("Atualizando usuário");
         Usuario usuarioSalvo = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
         usuarioSalvo.setNome(usuario.getNome());
         usuarioSalvo.setEmail(usuario.getEmail());
         return usuarioRepository.save(usuarioSalvo);
-    }*/
+    }
 
 
 }
