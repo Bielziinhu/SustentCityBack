@@ -1,5 +1,6 @@
 package br.com.ifba.usuario.service;
 
+import br.com.ifba.infrastructure.exception.BusinessException;
 import br.com.ifba.usuario.entity.Usuario;
 import br.com.ifba.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class UsuarioService implements UsuarioIService{
 
     public Usuario findById(Long id) {
         LOGGER.info("Buscando usuário por id");
-        return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        return usuarioRepository.findById(id).orElseThrow(() -> new BusinessException("Usuário não encontrado"));
     }
 
     public void delete(Long id) {
@@ -40,7 +41,7 @@ public class UsuarioService implements UsuarioIService{
 
     public Usuario update(Long id, Usuario usuario) {
         LOGGER.info("Atualizando usuário");
-        Usuario usuarioSalvo = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Usuario usuarioSalvo = usuarioRepository.findById(id).orElseThrow(() -> new BusinessException("Usuário não encontrado"));
         usuarioSalvo.setNome(usuario.getNome());
         usuarioSalvo.setEmail(usuario.getEmail());
         return usuarioRepository.save(usuarioSalvo);
