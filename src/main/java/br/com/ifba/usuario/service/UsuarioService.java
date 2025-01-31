@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class UsuarioService implements UsuarioIService{
         return usuarioRepository.findAll();
     }
 
+    @Transactional
     public Usuario save(Usuario usuario) {
         LOGGER.info("Salvando usuário");
         return usuarioRepository.save(usuario);
