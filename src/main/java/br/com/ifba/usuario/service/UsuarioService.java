@@ -6,6 +6,8 @@ import br.com.ifba.usuario.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +16,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+//Service utilizando o repository
 public class UsuarioService implements UsuarioIService{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
 
     private final UsuarioRepository usuarioRepository;
 
-    public List<Usuario> findAll() {
+    //Usando paginação para encontrar todos os usuarios ?size=3
+    public Page<Usuario> findAll(Pageable pageable) {
         LOGGER.info("Buscando todos os usuários");
-        return usuarioRepository.findAll();
+        return usuarioRepository.findAll(pageable);
     }
 
     @Transactional

@@ -19,6 +19,7 @@ public class ApiExceptionHandler {
     @Value(value = "${server.error.include-exception}")
     private boolean printStackTrace;
 
+    //Criando um método para tratar excessões com builder
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ValidationExceptionDetails> handleMethodArgumentNotValid(
             MethodArgumentNotValidException methodArgumentNotValidException) {

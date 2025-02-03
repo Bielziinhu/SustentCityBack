@@ -8,6 +8,7 @@ import br.com.ifba.usuario.entity.Usuario;
 import br.com.ifba.usuario.service.UsuarioIService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -55,8 +56,8 @@ public class UsuarioController {
 
     //Buscando todos os usuarios com mapeamento no DTO
     @GetMapping(path ="/findall", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(ObjectMapperUtil.mapList(this.usuarioService.findAll(), UsuarioGetResponseDto.class));
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.usuarioService.findAll(pageable).map(c -> ObjectMapperUtil.map(c, UsuarioGetResponseDto.class)));
     }
 
 }

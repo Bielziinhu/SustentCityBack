@@ -15,6 +15,7 @@ import java.io.Serializable;
 @Data
 @Table(name = "usuarios")
 @EqualsAndHashCode(callSuper = false)
+//Entidade de usuario com seus atributos
 public class Usuario extends PersistenceEntity implements Serializable {
 
     @Column(name = "nome", nullable = false)
