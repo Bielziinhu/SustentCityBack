@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +41,16 @@ public class UsuarioService implements UsuarioIService{
         return usuarioRepository.findById(id).orElseThrow(() -> new BusinessException("Usuário não encontrado"));
     }
 
+    @Override
+    @Transactional
+    public Optional<Usuario> findByLoginAndSenha(String login, String senha) {
+        try {
+            return usuarioRepository.findByLoginAndSenha(login, senha);
+        } catch (Exception e) {
+            throw new BusinessException("Erro ao buscar usuário por login e senha", e);
+        }
+    }
+
     public void delete(Long id) {
         LOGGER.info("Deletando usuário");
         usuarioRepository.deleteById(id);
@@ -48,8 +59,11 @@ public class UsuarioService implements UsuarioIService{
     public Usuario update(Long id, Usuario usuario) {
         LOGGER.info("Atualizando usuário");
         Usuario usuarioSalvo = usuarioRepository.findById(id).orElseThrow(() -> new BusinessException("Usuário não encontrado"));
+
         usuarioSalvo.setNome(usuario.getNome());
+        usuarioSalvo.setLogin(usuario.getLogin());
         usuarioSalvo.setEmail(usuario.getEmail());
+
         return usuarioRepository.save(usuarioSalvo);
     }
 

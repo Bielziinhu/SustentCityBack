@@ -8,19 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioGetResponseDto {
-
-    //Mapea o ID para que seja possível coletar no JSON
-    @JsonProperty(value = "id")
-    private Long id;
+public class UsuarioLoginResponseDto {
 
     //Mapeando a resposta do DTO para o JSON
-    @JsonProperty(value = "nome")
-    private String nome;
-
-    @JsonProperty(value = "email")
-    private String email;
-
     @JsonProperty(value = "login")
     private String login;
+
+    @JsonProperty(value = "senha")
+    private String senha;
+
 }

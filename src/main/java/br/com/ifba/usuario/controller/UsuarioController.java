@@ -2,6 +2,7 @@ package br.com.ifba.usuario.controller;
 
 import br.com.ifba.infrastructure.mapper.ObjectMapperUtil;
 import br.com.ifba.usuario.dto.UsuarioGetResponseDto;
+import br.com.ifba.usuario.dto.UsuarioLoginResponseDto;
 import br.com.ifba.usuario.dto.UsuarioPostRequestDto;
 import br.com.ifba.usuario.dto.UsuarioUpdateRequestDto;
 import br.com.ifba.usuario.entity.Usuario;
@@ -15,10 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     private final UsuarioIService usuarioService;
@@ -35,6 +38,29 @@ public class UsuarioController {
                         UsuarioGetResponseDto.class
                 ));
     }
+
+    //Login do usuario usando DTO
+    @PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> login(@RequestBody @Valid UsuarioLoginResponseDto usuarioLoginRequestDto) {
+
+        // Chama o serviço que autentica o usuário
+        Optional<Usuario> usuario = usuarioService.findByLoginAndSenha(
+                usuarioLoginRequestDto.getLogin(),
+                usuarioLoginRequestDto.getSenha()
+        );
+
+        //Alguns retornos para verificar na log se deu erro
+        if (usuario.isPresent()) {
+            UsuarioLoginResponseDto responseDto = ObjectMapperUtil.map(usuario.get(), UsuarioLoginResponseDto.class);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Map.of("message", "Login bem-sucedido", "usuario", responseDto));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Login ou senha inválidos"));
+        }
+    }
+
 
     //Excluir usuario pelo ID usando DTO
     @DeleteMapping(path = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
